@@ -1,7 +1,8 @@
 import express, { Express } from "express";
 import * as bodyParser from "body-parser";
 import mongoose, { Mongoose } from "mongoose";
-import ClientModules from "./modules/clientmodule/init";
+import UserModules from "./modules/usermodule/init";
+import ClientModule from "./modules/clientmodule/init";
 
 class App {
 
@@ -19,7 +20,7 @@ class App {
         this.app.use(bodyParser.urlencoded({ extended: false }));
     }
     public connectDatabase(){
-        let host: string = "mongodb://172.19.0.2";
+        let host: string = "mongodb://172.21.0.2";
         let dataBase: string = process.env.DATABASE || "casaReal";
         let connectionString: string = `${host}/${dataBase}`;
         mongoose.connect(connectionString, {
@@ -38,7 +39,8 @@ class App {
     }
     public initApp(){
         console.log("CARGANDO MODULOS");
-        const userModules = new ClientModules(this.app);
+        const userModules = new UserModules(this.app);
+        const clientModules = new ClientModule(this.app);
     }
 }
 export default new App();
